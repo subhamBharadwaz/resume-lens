@@ -161,7 +161,7 @@ describe("ResumeChecker", () => {
     const user = userEvent.setup();
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
-      json: async () => ({ analysis: mockAnalysis }),
+      text: async () => JSON.stringify({ analysis: mockAnalysis }),
     });
     vi.stubGlobal("fetch", fetchMock);
     render(<ResumeChecker />);
@@ -183,6 +183,21 @@ describe("ResumeChecker", () => {
     expect(screen.getByText("Top 5 Recommended Actions")).toBeInTheDocument();
     expect(screen.getByText("Quantify recent impact bullets.")).toBeInTheDocument();
     expect(screen.getByText("Jane_Doe_Frontend_Engineer.pdf")).toBeInTheDocument();
+  });
+
+  it("shows plain text API errors without a JSON parse failure", async () => {
+    const user = userEvent.setup();
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: false,
+      text: async () => "Cross-site POST form submissions are forbidden",
+    });
+    vi.stubGlobal("fetch", fetchMock);
+    render(<ResumeChecker />);
+
+    await user.upload(screen.getByLabelText(/upload pdf resume/i), new File(["%PDF-1.4"], "Jane_Doe_Resume.pdf", { type: "application/pdf" }));
+    await user.click(screen.getByRole("button", { name: /run full analysis/i }));
+
+    expect(await screen.findByText("Cross-site POST form submissions are forbidden")).toBeInTheDocument();
   });
 
   it("shows a helpful error before submission when no PDF is selected", async () => {

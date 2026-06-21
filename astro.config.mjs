@@ -5,6 +5,14 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   output: "server",
+  security: {
+    allowedDomains: [
+      {
+        protocol: "https",
+        hostname: "resume-lens-mu.vercel.app",
+      },
+    ],
+  },
   adapter: vercel({
     bodySizeLimit: 6 * 1024 * 1024,
   }),

@@ -6,6 +6,23 @@ import { sampleJobDescription } from "./resume-checker/sampleData";
 import type { ResumeAnalysis, UploadedFile } from "./resume-checker/types";
 
 type RequestState = "idle" | "loading" | "success" | "error";
+type AnalysisResponse = { analysis?: ResumeAnalysis; message?: string };
+
+async function readAnalysisResponse(response: Response): Promise<AnalysisResponse> {
+  const body = await response.text();
+
+  if (!body) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(body) as AnalysisResponse;
+  } catch {
+    return {
+      message: response.ok ? "Resume analysis returned an invalid response." : body,
+    };
+  }
+}
 
 export default function ResumeChecker() {
   const [file, setFile] = useState<File | null>(null);
@@ -44,7 +61,7 @@ export default function ResumeChecker() {
         method: "POST",
         body: formData,
       });
-      const payload = (await response.json()) as { analysis?: ResumeAnalysis; message?: string };
+      const payload = await readAnalysisResponse(response);
 
       if (!response.ok || !payload.analysis) {
         throw new Error(payload.message ?? "Resume analysis failed. Try a smaller PDF or shorter job description.");
