@@ -1,0 +1,23 @@
+{
+  "name": "Resume Lens",
+  "short_name": "Resume Lens",
+  "description": "AI-powered ATS resume checker for resume health, keyword fit, recruiter readiness, and technical validation.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f766e",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

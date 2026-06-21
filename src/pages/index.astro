@@ -1,0 +1,169 @@
+---
+import ResumeChecker from "../components/ResumeChecker";
+import "../styles/global.css";
+
+const navItems = ["Dashboard", "History", "Templates", "Resources"];
+const pageTitle = "Resume Lens - AI ATS Resume Checker";
+const pageDescription =
+  "Resume Lens checks ATS compatibility, job description match, resume health, recruiter readiness, keywords, grammar, impact, links, and file quality.";
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+const ogImageUrl = new URL("/og-image.png", canonicalUrl).toString();
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Resume Lens",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  url: canonicalUrl,
+  image: ogImageUrl,
+  description: pageDescription,
+  author: {
+    "@type": "Person",
+    name: "Subham Shyamal Bharadwaz",
+    email: "subhamsbharadwaz@gmail.com",
+  },
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  featureList: [
+    "ATS compatibility scoring",
+    "Job description keyword matching",
+    "Resume health scoring",
+    "Recruiter readiness analysis",
+    "Contact and link validation",
+    "AI resume improvement recommendations",
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="author" content="Subham Shyamal Bharadwaz" />
+    <meta name="keywords" content="ATS resume checker, resume scanner, resume analysis, job description match, resume health score, AI resume checker" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#0f766e" />
+    <meta name="application-name" content="Resume Lens" />
+    <meta name="apple-mobile-web-app-title" content="Resume Lens" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Resume Lens" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Resume Lens AI ATS Resume Checker preview" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body>
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 rounded-2xl bg-primary px-3 py-2 text-sm font-medium text-primary-foreground">
+      Skip to Content
+    </a>
+
+    <header class="border-b bg-background/90 backdrop-blur">
+      <nav class="page-shell flex h-16 items-center justify-between gap-4" aria-label="Main navigation">
+        <a href="/" class="flex min-w-0 items-center gap-3 rounded-2xl outline-none focus-visible:ring-3 focus-visible:ring-ring/30" aria-label="Resume Lens Home">
+          <span class="grid size-8 shrink-0 place-items-center rounded-2xl border bg-card text-primary shadow-sm" aria-hidden="true">
+            <svg viewBox="0 0 24 24" class="size-5" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M6 3.5h8l4 4v13H6z"></path>
+              <path d="M14 3.5v4h4"></path>
+            </svg>
+          </span>
+          <span class="truncate font-heading text-lg font-medium tracking-normal" translate="no">Resume Lens</span>
+        </a>
+
+        <div class="hidden items-center gap-7 text-sm text-muted-foreground md:flex">
+          {navItems.map((item) => <a class="rounded-2xl outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/30" href={`#${item.toLowerCase()}`}>{item}</a>)}
+        </div>
+
+        <div class="flex items-center gap-2">
+          <a href="#checker" class="hidden rounded-2xl px-3 py-2 text-sm font-medium text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/30 sm:inline-flex">
+            Sign In
+          </a>
+          <a href="#checker" class="rounded-2xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm outline-none hover:bg-primary/80 focus-visible:ring-3 focus-visible:ring-ring/30">
+            Get Started
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="page-shell py-10 sm:py-12 lg:py-14" aria-labelledby="page-title">
+        <div class="mb-8 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
+          <div class="max-w-3xl">
+            <h1 id="page-title" class="text-balance font-heading text-4xl font-medium leading-tight tracking-normal sm:text-5xl">
+              AI-Powered ATS Resume Checker
+            </h1>
+            <p class="mt-3 max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:text-lg">
+              Upload your resume, paste the job description, and see ATS fit, missing keywords, and stronger wording in one focused workspace.
+            </p>
+          </div>
+
+          <div class="flex flex-col items-start gap-3 lg:items-end">
+            <div class="flex gap-2">
+              <a href="#checker" class="rounded-2xl border bg-background px-4 py-2 text-sm font-medium outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/30">
+                New Analysis
+              </a>
+              <a href="#features" class="rounded-2xl px-4 py-2 text-sm font-medium text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/30">
+                View Features
+              </a>
+            </div>
+            <a
+              href="https://digitalheroesco.com"
+              class="rounded-2xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm outline-none hover:bg-primary/80 focus-visible:ring-3 focus-visible:ring-ring/30"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Built for Digital Heroes
+            </a>
+            <div class="text-left text-sm leading-6 text-muted-foreground lg:text-right">
+              <p class="font-medium text-foreground">Subham Shyamal Bharadwaz</p>
+              <a class="outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/30" href="mailto:subhamsbharadwaz@gmail.com">
+                subhamsbharadwaz@gmail.com
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <ResumeChecker client:load />
+      </section>
+
+      <section id="features" class="border-t py-10 sm:py-12" aria-labelledby="features-title">
+        <div class="page-shell">
+          <h2 id="features-title" class="text-balance text-center font-heading text-2xl font-medium tracking-normal">
+            Built for the 3 Checks Recruiters Force Your Resume Through
+          </h2>
+          <div class="mt-8 grid gap-4 md:grid-cols-3">
+            <article class="rounded-2xl border bg-card p-6 text-card-foreground shadow-sm">
+              <p class="text-sm font-medium">ATS Compatibility Score</p>
+              <p class="mt-2 text-sm leading-6 text-muted-foreground">Checks structure, formatting, section coverage, contact signals, and scan-friendly content.</p>
+            </article>
+            <article class="rounded-2xl border bg-card p-6 text-card-foreground shadow-sm">
+              <p class="text-sm font-medium">Job Description Match</p>
+              <p class="mt-2 text-sm leading-6 text-muted-foreground">Compares role language against your resume and separates matched skills from missing keywords.</p>
+            </article>
+            <article class="rounded-2xl border bg-card p-6 text-card-foreground shadow-sm">
+              <p class="text-sm font-medium">AI Resume Review</p>
+              <p class="mt-2 text-sm leading-6 text-muted-foreground">Flags weak bullets and suggests clearer, achievement-based wording with measurable impact.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

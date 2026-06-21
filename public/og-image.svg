@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Resume Lens AI ATS Resume Checker">
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect x="72" y="72" width="1056" height="486" rx="32" fill="#f6f7f5" stroke="#dfe4df"/>
+  <rect x="120" y="120" width="96" height="96" rx="22" fill="#0f766e"/>
+  <path d="M148 138h32l18 18v42h-50z" fill="#ffffff"/>
+  <path d="M180 138v18h18" fill="#ccfbf1"/>
+  <text x="240" y="167" fill="#17211f" font-family="Inter, Arial, sans-serif" font-size="48" font-weight="700">Resume Lens</text>
+  <text x="120" y="300" fill="#17211f" font-family="Inter, Arial, sans-serif" font-size="70" font-weight="800">AI-Powered ATS Resume Checker</text>
+  <text x="120" y="374" fill="#5f6b66" font-family="Inter, Arial, sans-serif" font-size="34">Analyze resume health, keyword fit, recruiter readiness, and technical quality.</text>
+  <rect x="120" y="444" width="248" height="58" rx="29" fill="#0f766e"/>
+  <text x="154" y="483" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Run Full Analysis</text>
+  <text x="120" y="542" fill="#5f6b66" font-family="Inter, Arial, sans-serif" font-size="24">Built by Subham Shyamal Bharadwaz</text>
+</svg>
