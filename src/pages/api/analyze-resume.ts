@@ -7,6 +7,7 @@ export const prerender = false;
 
 const maxPdfSize = 5 * 1024 * 1024;
 const maxJobDescriptionLength = 5000;
+const allowedOrigins = new Set(["https://resume-lens-mu.vercel.app", "http://localhost:4321"]);
 
 const scoreSchema = z.object({
   title: z.string(),
@@ -203,6 +204,12 @@ function isPdf(file: File) {
   return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
 }
 
+function isAllowedOrigin(request: Request) {
+  const origin = request.headers.get("origin");
+
+  return !origin || allowedOrigins.has(origin);
+}
+
 function compactText(value: string, maxLength: number) {
   const text = value.replace(/\s+/g, " ").trim();
   if (text.length <= maxLength) return text;
@@ -367,6 +374,10 @@ function normalizeAnalysis(analysis: z.infer<typeof generatedAnalysisSchema>) {
 }
 
 export const POST: APIRoute = async ({ request }) => {
+  if (!isAllowedOrigin(request)) {
+    return json({ message: "Resume analysis requests are only allowed from Resume Lens." }, 403);
+  }
+
   const apiKey = import.meta.env.GOOGLE_GENERATIVE_AI_API_KEY?.trim();
 
   if (!apiKey || apiKey === "replace_with_rotated_gemini_key") {

@@ -155,6 +155,16 @@ beforeEach(() => {
 });
 
 describe("POST /api/analyze-resume", () => {
+  it("rejects explicit cross-origin requests with JSON", async () => {
+    const request = formRequest({ resume: pdfFile() });
+    request.headers.set("origin", "https://example.com");
+
+    const response = await POST({ request } as never);
+
+    expect(response.status).toBe(403);
+    await expect(response.json()).resolves.toEqual({ message: "Resume analysis requests are only allowed from Resume Lens." });
+  });
+
   it("rejects requests without a resume file", async () => {
     const response = await POST({ request: formRequest({}) } as never);
 
