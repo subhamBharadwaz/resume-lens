@@ -1,7 +1,7 @@
 // @vitest-environment node
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { POST } from "./analyze-resume";
+import { GET, POST } from "./analyze-resume";
 
 const generateTextMock = vi.hoisted(() => vi.fn());
 
@@ -222,5 +222,13 @@ describe("POST /api/analyze-resume", () => {
     const prompt = generateTextMock.mock.calls[0][0].messages[0].content[0].text as string;
     expect(prompt).toContain("filename: resume_final_final.pdf");
     expect(prompt).toContain("Required modules:");
+  });
+});
+
+describe("GET /api/analyze-resume", () => {
+  it("returns 405 Method Not Allowed with JSON message", async () => {
+    const response = await GET({} as never);
+    expect(response.status).toBe(405);
+    await expect(response.json()).resolves.toEqual({ message: "Only POST requests are supported on this endpoint." });
   });
 });

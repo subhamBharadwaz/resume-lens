@@ -500,3 +500,7 @@ ${jobDescription}`,
     return json({ message: "Gemini could not analyze this PDF. Try a text-based PDF under 5 MB." }, 502);
   }
 };
+
+export const GET: APIRoute = async () => {
+  return json({ message: "Only POST requests are supported on this endpoint." }, 405);
+};
