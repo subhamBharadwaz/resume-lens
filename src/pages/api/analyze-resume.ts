@@ -206,8 +206,14 @@ function isPdf(file: File) {
 
 function isAllowedOrigin(request: Request) {
   const origin = request.headers.get("origin");
+  if (!origin) return true;
 
-  return !origin || allowedOrigins.has(origin);
+  try {
+    const requestOrigin = new URL(request.url).origin;
+    if (origin === requestOrigin) return true;
+  } catch {}
+
+  return allowedOrigins.has(origin);
 }
 
 function compactText(value: string, maxLength: number) {

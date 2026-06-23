@@ -165,6 +165,16 @@ describe("POST /api/analyze-resume", () => {
     await expect(response.json()).resolves.toEqual({ message: "Resume analysis requests are only allowed from Resume Lens." });
   });
 
+  it("allows same-origin requests dynamically", async () => {
+    const request = formRequest({ resume: pdfFile() });
+    request.headers.set("origin", "http://localhost");
+    generateTextMock.mockResolvedValue({ output: generatedAnalysis(80) });
+
+    const response = await POST({ request } as never);
+
+    expect(response.status).toBe(200);
+  });
+
   it("rejects requests without a resume file", async () => {
     const response = await POST({ request: formRequest({}) } as never);
 
