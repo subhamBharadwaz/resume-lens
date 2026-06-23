@@ -497,7 +497,8 @@ ${jobDescription}`,
     return json({ analysis: normalizeAnalysis(output) });
   } catch (error) {
     console.error("Resume analysis failed:", error instanceof Error ? error.message : error);
-    return json({ message: "Gemini could not analyze this PDF. Try a text-based PDF under 5 MB." }, 502);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return json({ message: `Gemini analysis failed: ${errorMessage}. Try a text-based PDF under 5 MB.` }, 502);
   }
 };
 
