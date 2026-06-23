@@ -157,6 +157,15 @@ describe("ResumeChecker", () => {
     expect(screen.getByText("Select a valid PDF resume before analysis.")).toBeInTheDocument();
   });
 
+  it("keeps detailed analysis sections hidden until AI data is available", () => {
+    render(<ResumeChecker />);
+
+    expect(screen.getByText("Analysis modules are ready.")).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "ATS Optimization" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Content Quality" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Recruiter Readiness" })).not.toBeInTheDocument();
+  });
+
   it("submits the PDF and job description, then renders comprehensive analysis modules", async () => {
     const user = userEvent.setup();
     const fetchMock = vi.fn().mockResolvedValue({

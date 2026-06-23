@@ -136,9 +136,13 @@ function DetailCard({
   );
 }
 
-function CategorySection({ title, children }: { title: string; children: ReactNode }) {
+function CategorySection({ title, children, delay = 0 }: { title: string; children: ReactNode; delay?: number }) {
   return (
-    <section className="flex flex-col gap-4" aria-labelledby={`${title.toLowerCase().replace(/\s+/g, "-")}-title`}>
+    <section
+      className="animate-[section-reveal_600ms_cubic-bezier(.2,.8,.2,1)_both] flex flex-col gap-4"
+      style={{ animationDelay: `${delay}ms` }}
+      aria-labelledby={`${title.toLowerCase().replace(/\s+/g, "-")}-title`}
+    >
       <div className="flex items-center justify-between gap-3">
         <h2 id={`${title.toLowerCase().replace(/\s+/g, "-")}-title`} className="text-lg font-semibold">
           {title}
@@ -153,6 +157,7 @@ export function AnalysisResults({ analysis, state, message }: AnalysisResultsPro
   const currentAnalysis = analysis ?? emptyAnalysis;
   const isLoading = state === "loading";
   const isError = state === "error";
+  const hasAnalysis = state === "success" && analysis !== null;
 
   return (
     <div className="flex flex-col gap-6" aria-live="polite">
@@ -187,13 +192,29 @@ export function AnalysisResults({ analysis, state, message }: AnalysisResultsPro
         ) : null}
       </Card>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <ScoreCard {...currentAnalysis.overallHealth} icon={Trophy} />
-        <ScoreCard {...currentAnalysis.ats} icon={Gauge} />
-        <ScoreCard {...currentAnalysis.match} icon={Search} />
-      </div>
+      {hasAnalysis ? (
+        <div className="animate-[section-reveal_500ms_cubic-bezier(.2,.8,.2,1)_both] grid gap-4 md:grid-cols-3">
+          <ScoreCard {...currentAnalysis.overallHealth} icon={Trophy} />
+          <ScoreCard {...currentAnalysis.ats} icon={Gauge} />
+          <ScoreCard {...currentAnalysis.match} icon={Search} />
+        </div>
+      ) : !isLoading ? (
+        <Card className="border-dashed bg-muted/20">
+          <CardContent className="flex flex-col gap-3 py-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="font-medium text-foreground">Analysis modules are ready.</p>
+              <p className="mt-1 leading-6">Upload a PDF and run the ATS check to reveal scores, recruiter risks, keyword matches, and AI recommendations.</p>
+            </div>
+            <Badge variant="secondary" className="w-fit">
+              Waiting for AI data
+            </Badge>
+          </CardContent>
+        </Card>
+      ) : null}
 
-      <CategorySection title="ATS Optimization">
+      {hasAnalysis ? (
+        <>
+      <CategorySection title="ATS Optimization" delay={80}>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <ScoreCard {...currentAnalysis.ats} icon={Gauge} />
           <ScoreCard {...{ ...currentAnalysis.match, title: "Keyword Match" }} icon={Target} />
@@ -215,7 +236,7 @@ export function AnalysisResults({ analysis, state, message }: AnalysisResultsPro
         </div>
       </CategorySection>
 
-      <CategorySection title="Content Quality">
+      <CategorySection title="Content Quality" delay={160}>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <ScoreCard {...currentAnalysis.impact} icon={Medal} />
           <ScoreCard {...currentAnalysis.grammar} icon={SpellCheck} />
@@ -244,7 +265,7 @@ export function AnalysisResults({ analysis, state, message }: AnalysisResultsPro
         </div>
       </CategorySection>
 
-      <CategorySection title="Recruiter Readiness">
+      <CategorySection title="Recruiter Readiness" delay={240}>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <ScoreCard {...currentAnalysis.hrRedFlags} icon={ShieldAlert} />
           <ScoreCard {...currentAnalysis.interviewRisk} icon={MessageSquareWarning} />
@@ -270,7 +291,7 @@ export function AnalysisResults({ analysis, state, message }: AnalysisResultsPro
         </div>
       </CategorySection>
 
-      <CategorySection title="Technical Validation">
+      <CategorySection title="Technical Validation" delay={320}>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <ScoreCard {...currentAnalysis.contactValidation} icon={MailCheck} />
           <ScoreCard {...currentAnalysis.linkValidation} icon={Link} />
@@ -327,7 +348,7 @@ export function AnalysisResults({ analysis, state, message }: AnalysisResultsPro
         </div>
       </CategorySection>
 
-      <CategorySection title="AI Recommendations">
+      <CategorySection title="AI Recommendations" delay={400}>
         <div className="grid gap-4 lg:grid-cols-[1fr_1fr_1fr]">
           <DetailCard title="Top 5 Recommended Actions" summary="Ranked by expected impact on resume health.">
             <ListBlock title="Highest impact actions" items={currentAnalysis.aiRecommendations.topActions} emptyText="Run an analysis to generate ranked actions." />
@@ -343,6 +364,8 @@ export function AnalysisResults({ analysis, state, message }: AnalysisResultsPro
           <ListBlock title="Full priority list" items={currentAnalysis.aiRecommendations.prioritizedFixes} emptyText="Run an analysis to generate prioritized fixes." />
         </DetailCard>
       </CategorySection>
+        </>
+      ) : null}
     </div>
   );
 }

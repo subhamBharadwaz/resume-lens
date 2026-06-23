@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { AnalysisResults } from "./resume-checker/AnalysisResults";
 import { FileUploadPanel } from "./resume-checker/FileUploadPanel";
+import { ImprovementPanel } from "./resume-checker/ImprovementPanel";
 import { JobDescriptionPanel } from "./resume-checker/JobDescriptionPanel";
 import { sampleJobDescription } from "./resume-checker/sampleData";
 import type { ResumeAnalysis, UploadedFile } from "./resume-checker/types";
@@ -103,6 +104,7 @@ export default function ResumeChecker() {
       </div>
 
       <AnalysisResults analysis={analysis} state={requestState} message={message} />
+      <ImprovementPanel file={file} jobDescription={jobDescription} visible={analysis !== null} />
     </form>
   );
 }

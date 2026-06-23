@@ -2,7 +2,6 @@
 import ResumeChecker from "../components/ResumeChecker";
 import "../styles/global.css";
 
-const navItems = ["Dashboard", "History", "Templates", "Resources"];
 const pageTitle = "Resume Lens - AI ATS Resume Checker";
 const pageDescription =
   "Resume Lens checks ATS compatibility, job description match, resume health, recruiter readiness, keywords, grammar, impact, links, and file quality.";
@@ -87,14 +86,8 @@ const structuredData = {
           <span class="truncate font-heading text-lg font-medium tracking-normal" translate="no">Resume Lens</span>
         </a>
 
-        <div class="hidden items-center gap-7 text-sm text-muted-foreground md:flex">
-          {navItems.map((item) => <a class="rounded-2xl outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/30" href={`#${item.toLowerCase()}`}>{item}</a>)}
-        </div>
 
         <div class="flex items-center gap-2">
-          <a href="#checker" class="hidden rounded-2xl px-3 py-2 text-sm font-medium text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/30 sm:inline-flex">
-            Sign In
-          </a>
           <a href="#checker" class="rounded-2xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm outline-none hover:bg-primary/80 focus-visible:ring-3 focus-visible:ring-ring/30">
             Get Started
           </a>
